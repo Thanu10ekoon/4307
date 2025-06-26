@@ -29,38 +29,51 @@ export default function Home() {
 
   return (
     <div className="container">
-      <h1 className="text-center mb-3" style={{ color: '#007bff' }}>
-        Welcome back, {user?.email}!
+      <h1 className="text-center mb-3" style={{ color: '#007bff', fontSize: '1.75rem', fontWeight: '700' }}>
+        👋 Welcome back!
       </h1>
+      <p className="text-center" style={{ color: '#666', marginBottom: '25px', fontSize: '14px' }}>
+        {user?.email}
+      </p>
       
       {/* Dashboard Stats */}
       <div className="grid-auto mb-3">
         <div className="card text-center" style={{ 
           backgroundColor: '#e3f2fd', 
-          border: '1px solid #2196f3'
+          border: '2px solid #2196f3',
+          borderRadius: '12px',
+          padding: '20px'
         }}>
-          <h3 style={{ margin: '0 0 10px 0', color: '#1976d2' }}>My Events</h3>
-          <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#1976d2' }}>
+          <h3 style={{ margin: '0 0 10px 0', color: '#1976d2', fontSize: '1rem', fontWeight: '600' }}>
+            📅 My Events
+          </h3>
+          <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#1976d2', marginBottom: '5px' }}>
             {myEventsCount}
           </div>
+          <small style={{ color: '#1976d2', fontSize: '12px' }}>Events Created</small>
         </div>
         
         <div className="card text-center" style={{ 
           backgroundColor: pendingInvitations.length > 0 ? '#ffebee' : '#e8f5e8', 
-          border: `1px solid ${pendingInvitations.length > 0 ? '#f44336' : '#4caf50'}`
+          border: `2px solid ${pendingInvitations.length > 0 ? '#f44336' : '#4caf50'}`,
+          borderRadius: '12px',
+          padding: '20px'
         }}>
-          <h3 style={{ margin: '0 0 10px 0', color: pendingInvitations.length > 0 ? '#d32f2f' : '#388e3c' }}>
-            Pending Invitations
+          <h3 style={{ margin: '0 0 10px 0', color: pendingInvitations.length > 0 ? '#d32f2f' : '#388e3c', fontSize: '1rem', fontWeight: '600' }}>
+            📧 Pending Invites
           </h3>
           <div style={{ 
-            fontSize: '2rem', 
+            fontSize: '2.5rem', 
             fontWeight: 'bold', 
-            color: pendingInvitations.length > 0 ? '#d32f2f' : '#388e3c' 
+            color: pendingInvitations.length > 0 ? '#d32f2f' : '#388e3c',
+            marginBottom: '5px'
           }}>
             {pendingInvitations.length}
           </div>
-          {pendingInvitations.length > 0 && (
-            <small style={{ color: '#d32f2f' }}>Awaiting your response!</small>
+          {pendingInvitations.length > 0 ? (
+            <small style={{ color: '#d32f2f', fontSize: '12px', fontWeight: '600' }}>Need Response!</small>
+          ) : (
+            <small style={{ color: '#388e3c', fontSize: '12px' }}>All Caught Up!</small>
           )}
         </div>
       </div>
@@ -70,23 +83,25 @@ export default function Home() {
         <button 
           onClick={() => document.getElementById('event-form').scrollIntoView({ behavior: 'smooth' })}
           className="btn btn-success"
+          style={{ borderRadius: '10px', fontWeight: '600' }}
         >
-          📅 Create New Event
+          ✨ Create New Event
         </button>
         
         <button 
           onClick={() => navigate('/myevents')}
           className="btn btn-primary"
+          style={{ borderRadius: '10px', fontWeight: '600' }}
         >
-          📋 Manage My Events
+          📋 Manage Events
         </button>
         
         <button 
           onClick={() => navigate('/invitations')}
           className="btn btn-secondary"
-          style={{ backgroundColor: '#6f42c1' }}
+          style={{ backgroundColor: '#6f42c1', borderRadius: '10px', fontWeight: '600' }}
         >
-          📧 View Invitations {pendingInvitations.length > 0 && `(${pendingInvitations.length})`}
+          📧 Invitations {pendingInvitations.length > 0 && `(${pendingInvitations.length})`}
         </button>
       </div>
 
@@ -96,8 +111,6 @@ export default function Home() {
           window.location.reload();
         }} />
       </div>
-      
-      {/* Recent Events */}
       
     </div>
   );

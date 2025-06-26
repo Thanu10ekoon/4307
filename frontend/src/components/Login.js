@@ -19,35 +19,48 @@ const Login = () => {
     }
   };
   return (
-    <div className="container" style={{ maxWidth: '400px', margin: '40px auto' }}>
-      <div className="card">
-        <h2 className="text-center mb-3" style={{ color: '#007bff' }}>Login</h2>
+    <div className="container" style={{ maxWidth: '400px', margin: '20px auto', padding: '15px' }}>
+      <div className="card" style={{ borderRadius: '12px', padding: '25px' }}>
+        <h2 className="text-center mb-3" style={{ color: '#007bff', fontSize: '1.75rem', fontWeight: '700' }}>
+          🔐 Welcome Back
+        </h2>
+        <p className="text-center" style={{ color: '#666', marginBottom: '25px', fontSize: '14px' }}>
+          Sign in to manage your events
+        </p>
         
         <input
           type="email"
-          placeholder="Email"
+          placeholder="📧 Email Address"
           value={email}
           onChange={e => setEmail(e.target.value)}
           className="form-input"
+          style={{ fontSize: '16px', padding: '16px' }}
         />
         
         <input
           type="password"
-          placeholder="Password"
+          placeholder="🔒 Password"
           value={password}
           onChange={e => setPassword(e.target.value)}
           className="form-input"
+          style={{ fontSize: '16px', padding: '16px' }}
         />
         
         <button 
           onClick={handleLogin} 
           className="btn btn-primary btn-full mb-2"
+          style={{ 
+            padding: '16px',
+            fontSize: '16px',
+            fontWeight: '600',
+            borderRadius: '8px'
+          }}
         >
-          Login
+          🚀 Sign In
         </button>
         
-        <p className="text-center">
-          Don't have an account? <Link to="/signup" style={{ color: '#007bff' }}>Sign up here</Link>
+        <p className="text-center" style={{ fontSize: '14px' }}>
+          New here? <Link to="/signup" style={{ color: '#007bff', fontWeight: '600' }}>Create an account</Link>
         </p>
       </div>
     </div>

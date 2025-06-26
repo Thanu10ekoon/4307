@@ -19,42 +19,56 @@ const Signup = () => {
   };
 
   return (
-    <div className="container" style={{ maxWidth: '400px', margin: '40px auto' }}>
-      <div className="card">
-        <h2 className="text-center mb-3" style={{ color: '#28a745' }}>Create Account</h2>
+    <div className="container" style={{ maxWidth: '400px', margin: '20px auto', padding: '15px' }}>
+      <div className="card" style={{ borderRadius: '12px', padding: '25px' }}>
+        <h2 className="text-center mb-3" style={{ color: '#28a745', fontSize: '1.75rem', fontWeight: '700' }}>
+          📝 Sign Up
+        </h2>
+        <p className="text-center" style={{ color: '#666', marginBottom: '25px', fontSize: '14px' }}>
+          Create your account to start organizing events
+        </p>
         
         <input
-          placeholder="Username"
+          placeholder="👤 Full Name"
           value={username}
           onChange={e => setUsername(e.target.value)}
           className="form-input"
+          style={{ fontSize: '16px', padding: '16px' }}
         />
         
         <input
           type="email"
-          placeholder="Email"
+          placeholder="📧 Email Address"
           value={email}
           onChange={e => setEmail(e.target.value)}
           className="form-input"
+          style={{ fontSize: '16px', padding: '16px' }}
         />
         
         <input
           type="password"
-          placeholder="Password"
+          placeholder="🔒 Create Password"
           value={password}
           onChange={e => setPassword(e.target.value)}
           className="form-input"
+          style={{ fontSize: '16px', padding: '16px' }}
         />
         
         <button 
           onClick={handleSignup} 
           className="btn btn-success btn-full mb-2"
+          style={{ 
+            padding: '16px',
+            fontSize: '16px',
+            fontWeight: '600',
+            borderRadius: '8px'
+          }}
         >
-          Sign Up
+          🎉 Create Account
         </button>
         
-        <p className="text-center">
-          Already have an account? <Link to="/login" style={{ color: '#007bff' }}>Login here</Link>
+        <p className="text-center" style={{ fontSize: '14px' }}>
+          Already have an account? <Link to="/login" style={{ color: '#007bff', fontWeight: '600' }}>Sign in here</Link>
         </p>
       </div>
     </div>
