@@ -22,7 +22,7 @@ const Login = () => {
     <div className="container" style={{ maxWidth: '400px', margin: '20px auto', padding: '15px' }}>
       <div className="card" style={{ borderRadius: '12px', padding: '25px' }}>
         <h2 className="text-center mb-3" style={{ color: '#007bff', fontSize: '1.75rem', fontWeight: '700' }}>
-          🔐 Welcome Back
+          🔐 Login
         </h2>
         <p className="text-center" style={{ color: '#666', marginBottom: '25px', fontSize: '14px' }}>
           Sign in to manage your events
@@ -56,7 +56,7 @@ const Login = () => {
             borderRadius: '8px'
           }}
         >
-          🚀 Sign In
+          Login
         </button>
         
         <p className="text-center" style={{ fontSize: '14px' }}>
