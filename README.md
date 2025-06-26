@@ -40,6 +40,6 @@ An end-to-end event invitation and RSVP tracking web application built using Rea
 3. Start app: `npm start`
 
 
-T.M.T.A.B. Tennekoon
-EG/2022/5364
-DEIE (Computer Engineering)
+### T.M.T.A.B. Tennekoon
+### EG/2022/5364
+### DEIE (Computer Engineering)
