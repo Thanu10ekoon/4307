@@ -10,32 +10,40 @@ export default function Navbar() {
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
     setUser(userData);
-  }, [location]); // Re-check user data when route changes
+  }, [location]);
 
   useEffect(() => {
-    // Handle body scroll when mobile menu is open
     if (isMobileMenuOpen) {
-      document.body.classList.add('mobile-menu-open');
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.classList.remove('mobile-menu-open');
+      document.body.style.overflow = 'unset';
     }
 
-    // Cleanup on unmount
     return () => {
-      document.body.classList.remove('mobile-menu-open');
+      document.body.style.overflow = 'unset';
     };
   }, [isMobileMenuOpen]);
 
   useEffect(() => {
-    // Close mobile menu when clicking outside
-    const handleClickOutside = (event) => {
-      if (isMobileMenuOpen && !event.target.closest('.mobile-menu') && !event.target.closest('.mobile-menu-button')) {
+    const handleEscapeKey = (event) => {
+      if (event.key === 'Escape' && isMobileMenuOpen) {
         setIsMobileMenuOpen(false);
       }
     };
 
-    document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscapeKey);
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKey);
+      window.removeEventListener('resize', handleResize);
+    };
   }, [isMobileMenuOpen]);
 
   const handleLogout = () => {
@@ -43,15 +51,19 @@ export default function Navbar() {
     setUser(null);
     setIsMobileMenuOpen(false);
     navigate("/");
-    window.location.reload(); // Force page refresh to update state
+    window.location.reload();
   };
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+    setIsMobileMenuOpen(prev => !prev);
   };
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  const handleMobileMenuClick = (e) => {
+    e.stopPropagation();
   };
 
   return (
@@ -63,7 +75,8 @@ export default function Navbar() {
         padding: '15px 20px',
         backgroundColor: '#007bff',
         color: 'white',
-        position: 'relative'
+        position: 'relative',
+        zIndex: 100
       }}>
         <div style={{ 
           fontSize: '20px', 
@@ -76,7 +89,9 @@ export default function Navbar() {
         <div className="desktop-menu" style={{ 
           display: 'flex', 
           alignItems: 'center', 
-          gap: '10px'
+          gap: '8px',
+          flexWrap: 'nowrap',
+          justifyContent: 'flex-end'
         }}>
           {user ? (
             <>
@@ -85,11 +100,12 @@ export default function Navbar() {
                 style={{
                   color: 'white',
                   textDecoration: 'none',
-                  marginRight: '15px',
-                  padding: '8px 12px',
+                  marginRight: '10px',
+                  padding: '6px 10px',
                   borderRadius: '4px',
                   transition: 'background-color 0.2s ease',
-                  whiteSpace: 'nowrap'
+                  whiteSpace: 'nowrap',
+                  fontSize: '14px'
                 }}
                 onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255,255,255,0.1)'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
@@ -101,11 +117,12 @@ export default function Navbar() {
                 style={{
                   color: 'white',
                   textDecoration: 'none',
-                  marginRight: '15px',
-                  padding: '8px 12px',
+                  marginRight: '10px',
+                  padding: '6px 10px',
                   borderRadius: '4px',
                   transition: 'background-color 0.2s ease',
-                  whiteSpace: 'nowrap'
+                  whiteSpace: 'nowrap',
+                  fontSize: '14px'
                 }}
                 onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255,255,255,0.1)'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
@@ -117,11 +134,12 @@ export default function Navbar() {
                 style={{
                   color: 'white',
                   textDecoration: 'none',
-                  marginRight: '15px',
-                  padding: '8px 12px',
+                  marginRight: '10px',
+                  padding: '6px 10px',
                   borderRadius: '4px',
                   transition: 'background-color 0.2s ease',
-                  whiteSpace: 'nowrap'
+                  whiteSpace: 'nowrap',
+                  fontSize: '14px'
                 }}
                 onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255,255,255,0.1)'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
@@ -129,9 +147,12 @@ export default function Navbar() {
                 Invitations
               </Link>
               <span style={{ 
-                marginRight: '10px', 
-                fontSize: '14px',
-                whiteSpace: 'nowrap'
+                marginRight: '8px', 
+                fontSize: '13px',
+                whiteSpace: 'nowrap',
+                maxWidth: '150px',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
               }}>
                 Welcome, {user.email}
               </span>
@@ -141,11 +162,11 @@ export default function Navbar() {
                   backgroundColor: 'transparent',
                   border: '1px solid white',
                   color: 'white',
-                  padding: '8px 16px',
+                  padding: '6px 12px',
                   cursor: 'pointer',
                   borderRadius: '4px',
-                  fontSize: '14px',
-                  minWidth: '80px',
+                  fontSize: '13px',
+                  minWidth: '70px',
                   whiteSpace: 'nowrap'
                 }}
               >
@@ -159,11 +180,12 @@ export default function Navbar() {
                 style={{
                   color: 'white',
                   textDecoration: 'none',
-                  marginRight: '15px',
-                  padding: '8px 12px',
+                  marginRight: '10px',
+                  padding: '6px 10px',
                   borderRadius: '4px',
                   transition: 'background-color 0.2s ease',
-                  whiteSpace: 'nowrap'
+                  whiteSpace: 'nowrap',
+                  fontSize: '14px'
                 }}
                 onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255,255,255,0.1)'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
@@ -175,11 +197,12 @@ export default function Navbar() {
                 style={{
                   color: 'white',
                   textDecoration: 'none',
-                  marginRight: '15px',
-                  padding: '8px 12px',
+                  marginRight: '5px',
+                  padding: '6px 10px',
                   borderRadius: '4px',
                   transition: 'background-color 0.2s ease',
-                  whiteSpace: 'nowrap'
+                  whiteSpace: 'nowrap',
+                  fontSize: '14px'
                 }}
                 onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(255,255,255,0.1)'}
                 onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
@@ -192,26 +215,17 @@ export default function Navbar() {
 
         {/* Mobile Hamburger Button */}
         <button 
-          className="mobile-menu-button"
+          className="hamburger-btn"
           onClick={toggleMobileMenu}
           style={{
             display: 'none',
             backgroundColor: 'transparent',
-            border: '1px solid rgba(255,255,255,0.3)',
+            border: 'none',
             color: 'white',
-            fontSize: '18px',
+            fontSize: '24px',
             cursor: 'pointer',
-            padding: '8px 10px',
-            borderRadius: '4px',
-            transition: 'all 0.2s ease'
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.backgroundColor = 'rgba(255,255,255,0.1)';
-            e.target.style.borderColor = 'white';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.backgroundColor = 'transparent';
-            e.target.style.borderColor = 'rgba(255,255,255,0.3)';
+            padding: '5px',
+            outline: 'none'
           }}
         >
           ☰
@@ -221,7 +235,6 @@ export default function Navbar() {
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div 
-          className="mobile-menu-overlay"
           style={{
             position: 'fixed',
             top: 0,
@@ -229,232 +242,197 @@ export default function Navbar() {
             right: 0,
             bottom: 0,
             backgroundColor: 'rgba(0,0,0,0.5)',
-            zIndex: 999,
+            zIndex: 1000,
             display: 'none'
           }}
+          className="mobile-overlay"
           onClick={closeMobileMenu}
         />
       )}
 
       {/* Mobile Menu */}
-      <div 
-        className="mobile-menu"
-        style={{
-          position: 'fixed',
-          top: 0,
-          right: isMobileMenuOpen ? '0' : '-100%',
-          width: '100%',
-          height: '100vh',
-          backgroundColor: '#007bff',
-          zIndex: 1000,
-          transition: 'right 0.3s ease',
-          display: 'none',
-          flexDirection: 'column',
-          padding: '20px 15px',
-          background: 'linear-gradient(135deg, #007bff 0%, #0056b3 100%)',
-          overflowY: 'auto'
-        }}
-      >
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          marginBottom: '30px',
-          borderBottom: '1px solid rgba(255,255,255,0.2)',
-          paddingBottom: '20px'
-        }}>
-          <h3 style={{ 
-            color: 'white', 
-            margin: 0, 
-            fontSize: '20px',
-            fontWeight: '700'
-          }}>
-            📱 Menu
-          </h3>
-          <button 
-            onClick={closeMobileMenu}
-            style={{
-              backgroundColor: 'rgba(255,255,255,0.2)',
-              border: '1px solid rgba(255,255,255,0.3)',
-              color: 'white',
-              fontSize: '24px',
-              cursor: 'pointer',
-              borderRadius: '50%',
-              width: '40px',
-              height: '40px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'all 0.3s ease'
-            }}
-          >
-            ×
-          </button>
-        </div>
-
-        {user && (
+      {isMobileMenuOpen && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            right: 0,
+            width: '280px',
+            height: '100vh',
+            backgroundColor: '#007bff',
+            background: 'linear-gradient(135deg, #007bff 0%, #0056b3 100%)',
+            zIndex: 1001,
+            display: 'none',
+            flexDirection: 'column',
+            padding: '20px',
+            boxShadow: '-2px 0 10px rgba(0,0,0,0.3)'
+          }}
+          className="mobile-menu"
+          onClick={handleMobileMenuClick}
+        >
+          {/* Close Button */}
           <div style={{ 
-            marginBottom: '25px', 
-            padding: '15px', 
-            backgroundColor: 'rgba(255,255,255,0.15)',
-            borderRadius: '12px',
-            textAlign: 'center',
-            border: '1px solid rgba(255,255,255,0.2)'
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center',
+            marginBottom: '30px',
+            borderBottom: '1px solid rgba(255,255,255,0.2)',
+            paddingBottom: '20px'
           }}>
-            <small style={{ color: 'rgba(255,255,255,0.9)', fontSize: '12px' }}>Logged in as:</small>
-            <div style={{ 
+            <h3 style={{ 
               color: 'white', 
-              fontWeight: 'bold', 
-              fontSize: '15px',
-              marginTop: '5px',
-              wordBreak: 'break-word'
+              margin: 0, 
+              fontSize: '18px',
+              fontWeight: '600'
             }}>
-              {user.email}
-            </div>
+              Menu
+            </h3>
+            <button 
+              onClick={closeMobileMenu}
+              style={{
+                backgroundColor: 'rgba(255,255,255,0.2)',
+                border: 'none',
+                color: 'white',
+                fontSize: '24px',
+                cursor: 'pointer',
+                borderRadius: '50%',
+                width: '40px',
+                height: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              ×
+            </button>
           </div>
-        )}
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {user ? (
-            <>
-              <Link 
-                to="/" 
-                onClick={closeMobileMenu}
-                style={{
-                  color: 'white',
-                  textDecoration: 'none',
-                  padding: '16px 20px',
-                  borderRadius: '12px',
-                  transition: 'all 0.3s ease',
-                  backgroundColor: 'rgba(255,255,255,0.1)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  fontSize: '16px',
-                  fontWeight: '500',
-                  textAlign: 'center',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '10px'
-                }}
-              >
-                <span style={{ fontSize: '20px' }}>🏠</span> Home
-              </Link>
-              <Link 
-                to="/myevents" 
-                onClick={closeMobileMenu}
-                style={{
-                  color: 'white',
-                  textDecoration: 'none',
-                  padding: '16px 20px',
-                  borderRadius: '12px',
-                  transition: 'all 0.3s ease',
-                  backgroundColor: 'rgba(255,255,255,0.1)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  fontSize: '16px',
-                  fontWeight: '500',
-                  textAlign: 'center',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '10px'
-                }}
-              >
-                <span style={{ fontSize: '20px' }}>📋</span> My Events
-              </Link>
-              <Link 
-                to="/invitations" 
-                onClick={closeMobileMenu}
-                style={{
-                  color: 'white',
-                  textDecoration: 'none',
-                  padding: '16px 20px',
-                  borderRadius: '12px',
-                  transition: 'all 0.3s ease',
-                  backgroundColor: 'rgba(255,255,255,0.1)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  fontSize: '16px',
-                  fontWeight: '500',
-                  textAlign: 'center',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '10px'
-                }}
-              >
-                <span style={{ fontSize: '20px' }}>📧</span> Invitations
-              </Link>
-              <button 
-                onClick={handleLogout}
-                style={{
-                  backgroundColor: 'rgba(220, 53, 69, 0.9)',
-                  border: '1px solid rgba(220, 53, 69, 1)',
-                  color: 'white',
-                  padding: '16px 20px',
-                  cursor: 'pointer',
-                  borderRadius: '12px',
-                  fontSize: '16px',
-                  fontWeight: '600',
-                  marginTop: '20px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '10px',
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                <span style={{ fontSize: '20px' }}>🚪</span> Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link 
-                to="/login" 
-                onClick={closeMobileMenu}
-                style={{
-                  color: 'white',
-                  textDecoration: 'none',
-                  padding: '16px 20px',
-                  borderRadius: '12px',
-                  transition: 'all 0.3s ease',
-                  backgroundColor: 'rgba(255,255,255,0.1)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  textAlign: 'center',
-                  fontSize: '16px',
-                  fontWeight: '500',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '10px'
-                }}
-              >
-                <span style={{ fontSize: '20px' }}>🔑</span> Login
-              </Link>
-              <Link 
-                to="/signup" 
-                onClick={closeMobileMenu}
-                style={{
-                  color: 'white',
-                  textDecoration: 'none',
-                  padding: '16px 20px',
-                  borderRadius: '12px',
-                  transition: 'all 0.3s ease',
-                  backgroundColor: 'rgba(40, 167, 69, 0.9)',
-                  border: '1px solid rgba(40, 167, 69, 1)',
-                  textAlign: 'center',
-                  fontSize: '16px',
-                  fontWeight: '600',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '10px'
-                }}
-              >
-                <span style={{ fontSize: '20px' }}>📝</span> Sign Up
-              </Link>
-            </>
+          {/* User Info */}
+          {user && (
+            <div style={{ 
+              marginBottom: '25px', 
+              padding: '15px', 
+              backgroundColor: 'rgba(255,255,255,0.1)',
+              borderRadius: '8px',
+              textAlign: 'center'
+            }}>
+              <small style={{ color: 'rgba(255,255,255,0.8)', fontSize: '12px' }}>
+                Logged in as:
+              </small>
+              <div style={{ 
+                color: 'white', 
+                fontWeight: 'bold', 
+                fontSize: '14px',
+                marginTop: '5px',
+                wordBreak: 'break-word'
+              }}>
+                {user.email}
+              </div>
+            </div>
           )}
+
+          {/* Menu Items */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {user ? (
+              <>
+                <Link 
+                  to="/" 
+                  onClick={closeMobileMenu}
+                  style={{
+                    color: 'white',
+                    textDecoration: 'none',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    backgroundColor: 'rgba(255,255,255,0.1)',
+                    textAlign: 'center',
+                    fontSize: '16px'
+                  }}
+                >
+                  🏠 Home
+                </Link>
+                <Link 
+                  to="/myevents" 
+                  onClick={closeMobileMenu}
+                  style={{
+                    color: 'white',
+                    textDecoration: 'none',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    backgroundColor: 'rgba(255,255,255,0.1)',
+                    textAlign: 'center',
+                    fontSize: '16px'
+                  }}
+                >
+                  📋 My Events
+                </Link>
+                <Link 
+                  to="/invitations" 
+                  onClick={closeMobileMenu}
+                  style={{
+                    color: 'white',
+                    textDecoration: 'none',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    backgroundColor: 'rgba(255,255,255,0.1)',
+                    textAlign: 'center',
+                    fontSize: '16px'
+                  }}
+                >
+                  📧 Invitations
+                </Link>
+                <button 
+                  onClick={handleLogout}
+                  style={{
+                    backgroundColor: 'rgba(220, 53, 69, 0.8)',
+                    border: 'none',
+                    color: 'white',
+                    padding: '15px',
+                    cursor: 'pointer',
+                    borderRadius: '8px',
+                    fontSize: '16px',
+                    marginTop: '20px'
+                  }}
+                >
+                  🚪 Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link 
+                  to="/login" 
+                  onClick={closeMobileMenu}
+                  style={{
+                    color: 'white',
+                    textDecoration: 'none',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    backgroundColor: 'rgba(255,255,255,0.1)',
+                    textAlign: 'center',
+                    fontSize: '16px'
+                  }}
+                >
+                  🔑 Login
+                </Link>
+                <Link 
+                  to="/signup" 
+                  onClick={closeMobileMenu}
+                  style={{
+                    color: 'white',
+                    textDecoration: 'none',
+                    padding: '15px',
+                    borderRadius: '8px',
+                    backgroundColor: 'rgba(40, 167, 69, 0.8)',
+                    textAlign: 'center',
+                    fontSize: '16px'
+                  }}
+                >
+                  📝 Sign Up
+                </Link>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

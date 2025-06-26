@@ -400,6 +400,45 @@ a:hover {
   }
 }
 
+/* Large screen optimizations */
+@media (min-width: 1200px) {
+  nav {
+    padding: 15px 30px !important;
+  }
+  
+  .desktop-menu {
+    gap: 12px !important;
+  }
+  
+  .desktop-menu a,
+  .desktop-menu button {
+    padding: 8px 14px !important;
+    font-size: 15px !important;
+  }
+}
+
+/* Medium screen optimizations */
+@media (min-width: 993px) and (max-width: 1199px) {
+  nav {
+    padding: 12px 20px !important;
+  }
+  
+  .desktop-menu {
+    gap: 8px !important;
+  }
+  
+  .desktop-menu a,
+  .desktop-menu button {
+    padding: 6px 10px !important;
+    font-size: 14px !important;
+  }
+  
+  .desktop-menu span {
+    font-size: 12px !important;
+    max-width: 120px !important;
+  }
+}
+
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
@@ -410,51 +449,44 @@ body.mobile-menu-open {
   overflow: hidden;
 }
 
-/* Navbar responsive styles */
-.mobile-menu-button,
-.mobile-menu,
-.mobile-menu-overlay {
-  display: none;
+/* Clean Navbar Responsive Styles */
+/* Desktop-first approach */
+.desktop-menu {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
 }
 
-/* Mobile menu item hover effects */
-.mobile-menu a:hover,
-.mobile-menu button:hover {
-  background-color: rgba(255,255,255,0.25) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+.hamburger-btn {
+  display: none !important;
 }
 
-.mobile-menu a:active,
-.mobile-menu button:active {
-  transform: translateY(0);
+.mobile-overlay {
+  display: none !important;
 }
 
-/* Desktop menu hover effects */
-.desktop-menu a:hover {
-  background-color: rgba(255,255,255,0.1);
+.mobile-menu {
+  display: none !important;
 }
 
-.desktop-menu button:hover {
-  background-color: rgba(255,255,255,0.1);
-}
-
+/* Mobile breakpoint */
 @media (max-width: 768px) {
   .desktop-menu {
     display: none !important;
   }
   
-  .mobile-menu-button {
+  .hamburger-btn {
+    display: block !important;
+  }
+  
+  .mobile-overlay {
     display: block !important;
   }
   
   .mobile-menu {
     display: flex !important;
-    box-shadow: -2px 0 10px rgba(0,0,0,0.3);
-  }
-  
-  .mobile-menu-overlay {
-    display: block !important;
   }
   
   nav {
@@ -466,10 +498,21 @@ body.mobile-menu-open {
   }
 }
 
+/* Desktop menu hover effects */
+.desktop-menu a:hover {
+  background-color: rgba(255,255,255,0.1) !important;
+}
+
+.desktop-menu button:hover {
+  background-color: rgba(255,255,255,0.1) !important;
+}
+
+/* Remove duplicate styles - cleaned up */
+
 @media (max-width: 480px) {
   /* Remove duplicate nav rules - handled above */
   .mobile-menu {
-    width: 100% !important;
+    width: 95% !important;
     right: 0 !important;
     padding: 20px 15px !important;
     border-radius: 0;
