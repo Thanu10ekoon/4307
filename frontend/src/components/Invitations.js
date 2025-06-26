@@ -60,48 +60,40 @@ export default function Invitations() {
   }
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>My Invitations</h2>
+    <div className="container">
+      <h2 className="text-center mb-3" style={{ color: '#007bff' }}>My Invitations</h2>
 
       {pendingInvitations.length > 0 && (
-        <div style={{ marginBottom: '30px' }}>
-          <h3 style={{ color: '#dc3545' }}>Pending RSVPs ({pendingInvitations.length})</h3>
+        <div className="mb-3">
+          <h3 className="mb-2" style={{ color: '#dc3545' }}>
+            Pending RSVPs ({pendingInvitations.length})
+          </h3>
           {pendingInvitations.map((inv) => (
-            <div 
-              key={inv.id} 
-              style={{ 
-                border: '2px solid #dc3545', 
-                padding: '15px', 
-                marginBottom: '15px', 
-                backgroundColor: '#fff5f5' 
-              }}
-            >
-              <h4>{inv.event.title}</h4>
-              <p><strong>Date:</strong> {new Date(inv.event.event_date).toLocaleString()}</p>
-              <p><strong>Location:</strong> {inv.event.location}</p>
-              <p><strong>Host:</strong> {inv.event.creator_email}</p>
+            <div key={inv.id} className="card" style={{ 
+              border: '2px solid #dc3545', 
+              backgroundColor: '#fff5f5' 
+            }}>
+              <h4 style={{ margin: '0 0 15px 0', color: '#dc3545' }}>{inv.event.title}</h4>
+              <p style={{ margin: '0 0 8px 0' }}>
+                <strong>📅 Date:</strong> {new Date(inv.event.event_date).toLocaleString()}
+              </p>
+              <p style={{ margin: '0 0 8px 0' }}>
+                <strong>📍 Location:</strong> {inv.event.location}
+              </p>
+              <p className="mb-2">
+                <strong>🎭 Host:</strong> {inv.event.creator_email}
+              </p>
               
-              <div style={{ marginTop: '15px' }}>
+              <div className="flex-center">
                 <button 
                   onClick={() => respondToInvitation(inv.event_id, 'Attending')}
-                  style={{ 
-                    padding: '10px 20px', 
-                    backgroundColor: '#28a745', 
-                    color: 'white', 
-                    border: 'none', 
-                    marginRight: '10px' 
-                  }}
+                  className="btn btn-success"
                 >
                   ✓ I'll Attend
                 </button>
                 <button 
                   onClick={() => respondToInvitation(inv.event_id, 'Not Attending')}
-                  style={{ 
-                    padding: '10px 20px', 
-                    backgroundColor: '#dc3545', 
-                    color: 'white', 
-                    border: 'none' 
-                  }}
+                  className="btn btn-danger"
                 >
                   ✗ Can't Attend
                 </button>
@@ -113,22 +105,22 @@ export default function Invitations() {
 
       {respondedInvitations.length > 0 && (
         <div>
-          <h3>Responded Invitations ({respondedInvitations.length})</h3>
+          <h3 className="mb-2">Responded Invitations ({respondedInvitations.length})</h3>
           {respondedInvitations.map((inv) => (
-            <div 
-              key={inv.id} 
-              style={{ 
-                border: '1px solid #dee2e6', 
-                padding: '15px', 
-                marginBottom: '15px', 
-                backgroundColor: inv.response === 'Attending' ? '#d4edda' : '#f8d7da' 
-              }}
-            >
-              <h4>{inv.event.title}</h4>
-              <p><strong>Date:</strong> {new Date(inv.event.event_date).toLocaleString()}</p>
-              <p><strong>Location:</strong> {inv.event.location}</p>
-              <p><strong>Host:</strong> {inv.event.creator_email}</p>
-              <p>
+            <div key={inv.id} className="card" style={{ 
+              backgroundColor: inv.response === 'Attending' ? '#d4edda' : '#f8d7da' 
+            }}>
+              <h4 style={{ margin: '0 0 15px 0', color: '#007bff' }}>{inv.event.title}</h4>
+              <p style={{ margin: '0 0 8px 0' }}>
+                <strong>📅 Date:</strong> {new Date(inv.event.event_date).toLocaleString()}
+              </p>
+              <p style={{ margin: '0 0 8px 0' }}>
+                <strong>📍 Location:</strong> {inv.event.location}
+              </p>
+              <p style={{ margin: '0 0 8px 0' }}>
+                <strong>🎭 Host:</strong> {inv.event.creator_email}
+              </p>
+              <p className="mb-2">
                 <strong>Your Response:</strong> 
                 <span style={{ 
                   color: inv.response === 'Attending' ? '#155724' : '#721c24',
@@ -139,21 +131,13 @@ export default function Invitations() {
                 </span>
               </p>
               
-              <div style={{ marginTop: '10px' }}>
-                <small>
-                  <button 
-                    onClick={() => respondToInvitation(inv.event_id, inv.response === 'Attending' ? 'Not Attending' : 'Attending')}
-                    style={{ 
-                      padding: '5px 10px', 
-                      backgroundColor: '#6c757d', 
-                      color: 'white', 
-                      border: 'none',
-                      fontSize: '12px'
-                    }}
-                  >
-                    Change to {inv.response === 'Attending' ? 'Not Attending' : 'Attending'}
-                  </button>
-                </small>
+              <div className="text-center">
+                <button 
+                  onClick={() => respondToInvitation(inv.event_id, inv.response === 'Attending' ? 'Not Attending' : 'Attending')}
+                  className="btn btn-secondary btn-small"
+                >
+                  Change to {inv.response === 'Attending' ? 'Not Attending' : 'Attending'}
+                </button>
               </div>
             </div>
           ))}
@@ -161,8 +145,9 @@ export default function Invitations() {
       )}
 
       {receivedInvitations.length === 0 && (
-        <div style={{ textAlign: 'center', color: '#666', fontStyle: 'italic', padding: '40px' }}>
-          No invitations found. When someone invites you to an event, it will appear here.
+        <div className="card text-center" style={{ color: '#666' }}>
+          <h4>No invitations found</h4>
+          <p>When someone invites you to an event, it will appear here.</p>
         </div>
       )}
     </div>

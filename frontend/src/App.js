@@ -6,7 +6,6 @@ import MyEvents from "./pages/MyEvents";
 import InvitationsPage from "./pages/InvitationsPage";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import Welcome from "./components/Welcome";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -29,7 +28,7 @@ function App() {
               <Home />
             </ProtectedRoute>
           ) : (
-            <Welcome />
+            <Login />
           )
         } />
         <Route path="/myevents" element={

@@ -55,76 +55,108 @@ export default function EventDetails({ event }) {
   };
 
   return (
-    <div style={{ padding: '20px', border: '2px solid #007bff', marginTop: '20px', backgroundColor: '#f8f9fa' }}>
-      <h3 style={{ color: '#007bff' }}>{event.title}</h3>
-      <p><strong>Date:</strong> {eventDate.toLocaleString()}</p>
-      <p><strong>Location:</strong> {event.location}</p>
-      <p><strong>Created by:</strong> {event.creator_email}</p>
+    <div className="card mt-2" style={{ border: '2px solid #007bff', backgroundColor: '#f8f9fa' }}>
+      <h3 style={{ color: '#007bff', marginBottom: '15px' }}>{event.title}</h3>
+      <p style={{ marginBottom: '8px' }}><strong>Date:</strong> {eventDate.toLocaleString()}</p>
+      <p style={{ marginBottom: '8px' }}><strong>Location:</strong> {event.location}</p>
+      <p style={{ marginBottom: '20px' }}><strong>Created by:</strong> {event.creator_email}</p>
       
       {isCreator && (
-        <div style={{ marginTop: '20px', padding: '15px', border: '1px solid #dee2e6', backgroundColor: 'white' }}>
-          <h4>Send Invitations</h4>
-          <div style={{ maxHeight: '150px', overflowY: 'auto', border: '1px solid #ccc', padding: '10px' }}>
+        <div className="card mt-2">
+          <h4 style={{ marginBottom: '15px' }}>Send Invitations</h4>
+          <div style={{ 
+            maxHeight: '150px', 
+            overflowY: 'auto', 
+            border: '1px solid #ccc', 
+            padding: '10px',
+            borderRadius: '4px',
+            marginBottom: '15px'
+          }}>
             {allUsers.map(u => (
-              <div key={u.email} style={{ marginBottom: '5px' }}>
-                <label>
+              <div key={u.email} style={{ marginBottom: '8px' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                   <input
                     type="checkbox"
                     checked={selectedUsers.includes(u.email)}
                     onChange={() => handleUserSelection(u.email)}
                     disabled={u.email === user.email} // Don't allow self-invitation
                   />
-                  {u.username} ({u.email})
+                  <span>{u.username} ({u.email})</span>
                 </label>
               </div>
             ))}
           </div>
           <button 
             onClick={sendInvitations}
-            style={{ 
-              marginTop: '10px', 
-              padding: '8px 16px', 
-              backgroundColor: '#28a745', 
-              color: 'white', 
-              border: 'none' 
-            }}
+            className="btn btn-success"
           >
             Send Invitations ({selectedUsers.length} selected)
           </button>
         </div>
       )}
 
-      <div style={{ marginTop: '20px' }}>
-        <h4>Invitations ({invitations.length})</h4>
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          {invitations.map((inv, i) => (
-            <li key={i} style={{ padding: '5px', borderBottom: '1px solid #eee' }}>
-              {inv.recipient_email} - 
-              <span style={{ 
-                color: inv.response === 'Attending' ? 'green' : inv.response === 'Not Attending' ? 'red' : '#666',
-                fontWeight: 'bold',
-                marginLeft: '10px'
-              }}>
-                {inv.response || 'Pending'}
-              </span>
-            </li>
-          ))}
-        </ul>
+      <div className="mt-2">
+        <h4 style={{ marginBottom: '15px' }}>Invitations ({invitations.length})</h4>
+        <div className="card" style={{ backgroundColor: 'white' }}>
+          {invitations.length === 0 ? (
+            <p style={{ color: '#666', textAlign: 'center' }}>No invitations sent yet</p>
+          ) : (
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              {invitations.map((inv, i) => (
+                <li key={i} style={{ 
+                  padding: '8px 0', 
+                  borderBottom: i < invitations.length - 1 ? '1px solid #eee' : 'none',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: '8px'
+                }}>
+                  <span>{inv.recipient_email}</span>
+                  <span style={{ 
+                    color: inv.response === 'Attending' ? 'green' : inv.response === 'Not Attending' ? 'red' : '#666',
+                    fontWeight: 'bold',
+                    fontSize: '14px'
+                  }}>
+                    {inv.response || 'Pending'}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
 
-      <div style={{ marginTop: '20px' }}>
-        <h4>Feedbacks ({feedbacks.length})</h4>
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          {feedbacks.map((fb, i) => (
-            <li key={i} style={{ padding: '10px', backgroundColor: 'white', marginBottom: '5px', border: '1px solid #dee2e6' }}>
-              <strong>{fb.user_email}:</strong> {fb.message}
-            </li>
-          ))}
-        </ul>
+      <div className="mt-2">
+        <h4 style={{ marginBottom: '15px' }}>Feedbacks ({feedbacks.length})</h4>
+        <div className="card" style={{ backgroundColor: 'white' }}>
+          {feedbacks.length === 0 ? (
+            <p style={{ color: '#666', textAlign: 'center' }}>No feedback yet</p>
+          ) : (
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              {feedbacks.map((fb, i) => (
+                <li key={i} style={{ 
+                  padding: '10px', 
+                  backgroundColor: '#f8f9fa', 
+                  marginBottom: '8px', 
+                  border: '1px solid #dee2e6',
+                  borderRadius: '4px'
+                }}>
+                  <strong style={{ color: '#007bff' }}>{fb.user_email}:</strong>
+                  <p style={{ margin: '5px 0 0 0', fontSize: '14px' }}>{fb.message}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
         
-        {isEventPast && !isCreator && <FeedbackForm eventId={event.id} onFeedbackSubmitted={() => {
-          axios.get(`/events/${event.id}/feedback`).then((res) => setFeedbacks(res.data));
-        }} />}
+        {isEventPast && !isCreator && (
+          <div className="mt-2">
+            <FeedbackForm eventId={event.id} onFeedbackSubmitted={() => {
+              axios.get(`/events/${event.id}/feedback`).then((res) => setFeedbacks(res.data));
+            }} />
+          </div>
+        )}
       </div>
     </div>
   );

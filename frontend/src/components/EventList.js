@@ -13,30 +13,39 @@ export default function EventList() {
   }, []);
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>All Events</h2>
-      <p style={{ color: '#666', fontStyle: 'italic' }}>
+    <div className="card">
+      <h3 style={{ marginBottom: '20px', color: '#007bff' }}>All Events</h3>
+      <p style={{ color: '#666', fontStyle: 'italic', marginBottom: '20px' }}>
         Note: All events listing needs backend support. Currently showing user's events only.
       </p>
-      <ul style={{ listStyle: 'none', padding: 0 }}>
+      <div style={{ display: 'grid', gap: '10px' }}>
         {events.map((event) => (
-          <li 
+          <div 
             key={event.id} 
             style={{ 
-              border: '1px solid #ccc', 
-              padding: '10px', 
-              marginBottom: '10px', 
+              border: '1px solid #dee2e6', 
+              padding: '15px', 
+              borderRadius: '6px',
               cursor: 'pointer',
-              backgroundColor: selected?.id === event.id ? '#e3f2fd' : 'white'
+              backgroundColor: selected?.id === event.id ? '#e3f2fd' : '#f8f9fa',
+              transition: 'all 0.2s ease'
             }} 
             onClick={() => setSelected(event)}
           >
-            <strong>{event.title}</strong>
-            <br />
-            <small>{event.event_date ? new Date(event.event_date).toLocaleString() : ''} - {event.location}</small>
-          </li>
+            <h5 style={{ margin: '0 0 8px 0', color: '#007bff' }}>{event.title}</h5>
+            {event.event_date && (
+              <small style={{ color: '#666' }}>
+                📅 {new Date(event.event_date).toLocaleString()} - 📍 {event.location}
+              </small>
+            )}
+          </div>
         ))}
-      </ul>
+      </div>
+      {events.length === 0 && (
+        <div style={{ textAlign: 'center', color: '#666', padding: '20px' }}>
+          No events to display.
+        </div>
+      )}
       {selected && <EventDetails event={selected} />}
     </div>
   );

@@ -19,60 +19,37 @@ const Login = () => {
     }
   };
   return (
-    <div style={{ padding: '40px', maxWidth: '400px', margin: '0 auto' }}>
-      <h2 style={{ textAlign: 'center', marginBottom: '30px' }}>Login</h2>
-      
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        style={{ 
-          display: 'block', 
-          marginBottom: '15px', 
-          padding: '12px', 
-          width: '100%', 
-          border: '1px solid #ccc',
-          borderRadius: '4px',
-          fontSize: '16px'
-        }}
-      />
-      
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-        style={{ 
-          display: 'block', 
-          marginBottom: '20px', 
-          padding: '12px', 
-          width: '100%', 
-          border: '1px solid #ccc',
-          borderRadius: '4px',
-          fontSize: '16px'
-        }}
-      />
-      
-      <button 
-        onClick={handleLogin} 
-        style={{ 
-          padding: '12px 24px', 
-          width: '100%',
-          backgroundColor: '#007bff',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          fontSize: '16px',
-          cursor: 'pointer'
-        }}
-      >
-        Login
-      </button>
-      
-      <p style={{ textAlign: 'center', marginTop: '20px' }}>
-        Don't have an account? <Link to="/signup" style={{ color: '#007bff' }}>Sign up here</Link>
-      </p>
+    <div className="container" style={{ maxWidth: '400px', margin: '40px auto' }}>
+      <div className="card">
+        <h2 className="text-center mb-3" style={{ color: '#007bff' }}>Login</h2>
+        
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          className="form-input"
+        />
+        
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          className="form-input"
+        />
+        
+        <button 
+          onClick={handleLogin} 
+          className="btn btn-primary btn-full mb-2"
+        >
+          Login
+        </button>
+        
+        <p className="text-center">
+          Don't have an account? <Link to="/signup" style={{ color: '#007bff' }}>Sign up here</Link>
+        </p>
+      </div>
     </div>
   );
 };

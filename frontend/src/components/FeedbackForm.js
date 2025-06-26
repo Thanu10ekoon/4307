@@ -22,32 +22,23 @@ export default function FeedbackForm({ eventId, onFeedbackSubmitted }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginTop: '20px', padding: '15px', border: '1px solid #dee2e6', backgroundColor: 'white' }}>
-      <h4>Leave Feedback</h4>
-      <textarea
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        placeholder="Share your thoughts about this event..."
-        required
-        style={{ 
-          width: '100%', 
-          padding: '10px', 
-          border: '1px solid #ccc', 
-          marginBottom: '10px',
-          minHeight: '80px'
-        }}
-      />
-      <button 
-        type="submit"
-        style={{ 
-          padding: '8px 16px', 
-          backgroundColor: '#28a745', 
-          color: 'white', 
-          border: 'none' 
-        }}
-      >
-        Submit Feedback
-      </button>
-    </form>
+    <div className="card">
+      <h4 style={{ marginBottom: '15px' }}>Leave Feedback</h4>
+      <form onSubmit={handleSubmit}>
+        <textarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Share your thoughts about this event..."
+          required
+          className="form-textarea"
+        />
+        <button 
+          type="submit"
+          className="btn btn-success btn-full"
+        >
+          Submit Feedback
+        </button>
+      </form>
+    </div>
   );
 }

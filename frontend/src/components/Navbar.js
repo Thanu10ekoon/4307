@@ -18,44 +18,108 @@ export default function Navbar() {
     window.location.reload(); // Force page refresh to update state
   };
 
-  const navStyle = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '20px',
-    backgroundColor: '#007bff',
-    color: 'white'
-  };
-
-  const linkStyle = {
-    color: 'white',
-    textDecoration: 'none',
-    marginRight: '20px'
-  };
-
-  const buttonStyle = {
-    backgroundColor: 'transparent',
-    border: '1px solid white',
-    color: 'white',
-    padding: '8px 16px',
-    cursor: 'pointer'
-  };
-
   return (
-    <nav style={navStyle}>
-      <div style={{ fontSize: '24px', fontWeight: 'bold' }}>RSVP Event Manager</div>
-      <div>
+    <nav style={{
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: '15px 20px',
+      backgroundColor: '#007bff',
+      color: 'white',
+      flexWrap: 'wrap',
+      gap: '10px'
+    }}>
+      <div style={{ 
+        fontSize: '20px', 
+        fontWeight: 'bold', 
+        minWidth: '200px',
+        marginBottom: '5px'
+      }}>
+        RSVP Event Manager
+      </div>
+      <div style={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        flexWrap: 'wrap', 
+        gap: '10px',
+        justifyContent: 'center'
+      }}>
         {user ? (
           <>
-            <Link to="/" style={linkStyle}>Home</Link>
-            <Link to="/myevents" style={linkStyle}>My Events</Link>
-            <Link to="/invitations" style={linkStyle}>Invitations</Link>
-            <span style={{ marginRight: '10px' }}>Welcome, {user.email}</span>
-            <button onClick={handleLogout} style={buttonStyle}>Logout</button>
+            <Link to="/" style={{
+              color: 'white',
+              textDecoration: 'none',
+              marginRight: '15px',
+              padding: '8px 12px',
+              borderRadius: '4px',
+              transition: 'background-color 0.2s ease',
+              whiteSpace: 'nowrap'
+            }}>Home</Link>
+            <Link to="/myevents" style={{
+              color: 'white',
+              textDecoration: 'none',
+              marginRight: '15px',
+              padding: '8px 12px',
+              borderRadius: '4px',
+              transition: 'background-color 0.2s ease',
+              whiteSpace: 'nowrap'
+            }}>My Events</Link>
+            <Link to="/invitations" style={{
+              color: 'white',
+              textDecoration: 'none',
+              marginRight: '15px',
+              padding: '8px 12px',
+              borderRadius: '4px',
+              transition: 'background-color 0.2s ease',
+              whiteSpace: 'nowrap'
+            }}>Invitations</Link>
+            <span style={{ 
+              marginRight: '10px', 
+              fontSize: '14px',
+              whiteSpace: 'nowrap',
+              textAlign: 'center',
+              width: '100%',
+              order: window.innerWidth <= 768 ? -1 : 0
+            }}>
+              Welcome, {user.email}
+            </span>
+            <button 
+              onClick={handleLogout} 
+              style={{
+                backgroundColor: 'transparent',
+                border: '1px solid white',
+                color: 'white',
+                padding: '8px 16px',
+                cursor: 'pointer',
+                borderRadius: '4px',
+                fontSize: '14px',
+                minWidth: '80px',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              Logout
+            </button>
           </>
         ) : (
           <>
-            <Link to="/login" style={linkStyle}>Login</Link>
-            <Link to="/signup" style={linkStyle}>Signup</Link>
+            <Link to="/login" style={{
+              color: 'white',
+              textDecoration: 'none',
+              marginRight: '15px',
+              padding: '8px 12px',
+              borderRadius: '4px',
+              transition: 'background-color 0.2s ease',
+              whiteSpace: 'nowrap'
+            }}>Login</Link>
+            <Link to="/signup" style={{
+              color: 'white',
+              textDecoration: 'none',
+              marginRight: '15px',
+              padding: '8px 12px',
+              borderRadius: '4px',
+              transition: 'background-color 0.2s ease',
+              whiteSpace: 'nowrap'
+            }}>Signup</Link>
           </>
         )}
       </div>

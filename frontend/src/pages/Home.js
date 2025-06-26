@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import EventForm from "../components/EventForm";
 import EventList from "../components/EventList";
 import axios from "../api/axios";
@@ -6,6 +7,7 @@ import axios from "../api/axios";
 export default function Home() {
   const [pendingInvitations, setPendingInvitations] = useState([]);
   const [myEventsCount, setMyEventsCount] = useState(0);
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
@@ -26,24 +28,16 @@ export default function Home() {
   }, []);
 
   return (
-    <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
-      <h1 style={{ color: '#007bff', marginBottom: '30px' }}>
+    <div className="container">
+      <h1 className="text-center mb-3" style={{ color: '#007bff' }}>
         Welcome back, {user?.email}!
       </h1>
       
       {/* Dashboard Stats */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
-        gap: '20px',
-        marginBottom: '40px'
-      }}>
-        <div style={{ 
-          padding: '20px', 
+      <div className="grid-auto mb-3">
+        <div className="card text-center" style={{ 
           backgroundColor: '#e3f2fd', 
-          border: '1px solid #2196f3', 
-          borderRadius: '8px',
-          textAlign: 'center'
+          border: '1px solid #2196f3'
         }}>
           <h3 style={{ margin: '0 0 10px 0', color: '#1976d2' }}>My Events</h3>
           <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#1976d2' }}>
@@ -51,12 +45,9 @@ export default function Home() {
           </div>
         </div>
         
-        <div style={{ 
-          padding: '20px', 
+        <div className="card text-center" style={{ 
           backgroundColor: pendingInvitations.length > 0 ? '#ffebee' : '#e8f5e8', 
-          border: `1px solid ${pendingInvitations.length > 0 ? '#f44336' : '#4caf50'}`, 
-          borderRadius: '8px',
-          textAlign: 'center'
+          border: `1px solid ${pendingInvitations.length > 0 ? '#f44336' : '#4caf50'}`
         }}>
           <h3 style={{ margin: '0 0 10px 0', color: pendingInvitations.length > 0 ? '#d32f2f' : '#388e3c' }}>
             Pending Invitations
@@ -75,53 +66,25 @@ export default function Home() {
       </div>
 
       {/* Action Buttons */}
-      <div style={{ 
-        display: 'flex', 
-        gap: '15px', 
-        marginBottom: '40px',
-        flexWrap: 'wrap'
-      }}>
+      <div className="flex-center mb-3">
         <button 
           onClick={() => document.getElementById('event-form').scrollIntoView({ behavior: 'smooth' })}
-          style={{
-            padding: '12px 24px',
-            backgroundColor: '#28a745',
-            color: 'white',
-            border: 'none',
-            borderRadius: '6px',
-            fontSize: '16px',
-            cursor: 'pointer'
-          }}
+          className="btn btn-success"
         >
           📅 Create New Event
         </button>
         
         <button 
-          onClick={() => window.location.href = '/myevents'}
-          style={{
-            padding: '12px 24px',
-            backgroundColor: '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '6px',
-            fontSize: '16px',
-            cursor: 'pointer'
-          }}
+          onClick={() => navigate('/myevents')}
+          className="btn btn-primary"
         >
           📋 Manage My Events
         </button>
         
         <button 
-          onClick={() => window.location.href = '/invitations'}
-          style={{
-            padding: '12px 24px',
-            backgroundColor: '#6f42c1',
-            color: 'white',
-            border: 'none',
-            borderRadius: '6px',
-            fontSize: '16px',
-            cursor: 'pointer'
-          }}
+          onClick={() => navigate('/invitations')}
+          className="btn btn-secondary"
+          style={{ backgroundColor: '#6f42c1' }}
         >
           📧 View Invitations {pendingInvitations.length > 0 && `(${pendingInvitations.length})`}
         </button>
