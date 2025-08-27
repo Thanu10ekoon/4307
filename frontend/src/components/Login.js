@@ -8,7 +8,7 @@ const Login = () => {
   const navigate = useNavigate();  const handleLogin = async () => {
     try {
       const res = await axios.post('/auth/login', { email, password });
-      alert(res.data.msg || 'Login successful');
+      // alert(res.data.msg || 'Login successful');
       // Store user data with email as the identifier since backend uses email as primary key
       const userData = { email, username: email.split('@')[0] }; // temporary username
       localStorage.setItem('user', JSON.stringify(userData));
