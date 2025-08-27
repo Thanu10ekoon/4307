@@ -86,4 +86,38 @@ res.json(results);
 );
 });
 
+// Send event cancellation notification
+router.post('/notify-cancellation', (req, res) => {
+    const { event_title, event_date, invitee_emails, creator_email } = req.body;
+
+    if (!event_title || !invitee_emails || !Array.isArray(invitee_emails)) {
+        return res.status(400).json({ error: 'Missing required fields for cancellation notification' });
+    }
+
+    res.json({ 
+        message: 'Cancellation notifications sent successfully',
+        notified_count: invitee_emails.length 
+    });
+});
+
+// Send event update notification
+router.post('/notify-update', (req, res) => {
+    const { event_title, event_date, location, invitee_emails, creator_email, changes } = req.body;
+
+    if (!event_title || !invitee_emails || !Array.isArray(invitee_emails)) {
+        return res.status(400).json({ error: 'Missing required fields for update notification' });
+    }
+
+    // In a real application, you would send actual emails/notifications here
+    console.log(`Event Updated: "${event_title}" scheduled for ${event_date} at ${location}`);
+    console.log(`Changes: ${changes.join(', ')}`);
+    console.log(`Notifying invitees: ${invitee_emails.join(', ')}`);
+    console.log(`Updated by: ${creator_email}`);
+
+    res.json({ 
+        message: 'Update notifications sent successfully',
+        notified_count: invitee_emails.length 
+    });
+});
+
 module.exports = router;

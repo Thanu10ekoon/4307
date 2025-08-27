@@ -10,10 +10,32 @@ export default function MyEvents() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
 
-  useEffect(() => {
+  const refreshEvents = () => {
     if (user?.email) {
       axios.get(`/events/created/${user.email}`).then(res => setEvents(res.data));
     }
+  };
+
+  const handleEventDeleted = (deletedEventId) => {
+    // Remove the deleted event from the state
+    setEvents(events.filter(ev => ev.id !== deletedEventId));
+    // Clear selection if the deleted event was selected
+    if (selected?.id === deletedEventId) {
+      setSelected(null);
+    }
+  };
+
+  const handleEventUpdated = (updatedEvent) => {
+    // Update the event in the state
+    setEvents(events.map(ev => ev.id === updatedEvent.id ? updatedEvent : ev));
+    // Update selection if the updated event was selected
+    if (selected?.id === updatedEvent.id) {
+      setSelected(updatedEvent);
+    }
+  };
+
+  useEffect(() => {
+    refreshEvents();
   }, []);
 
   return (
@@ -53,7 +75,7 @@ export default function MyEvents() {
           </button>
         </div>
       )}
-      {selected && <EventDetails event={selected} />}
+      {selected && <EventDetails event={selected} onEventDeleted={handleEventDeleted} onEventUpdated={handleEventUpdated} />}
     </div>
   );
 }
